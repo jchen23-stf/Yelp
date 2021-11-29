@@ -1,17 +1,17 @@
 # Yelp Clone 
 
-## *Your name here*
+## *Jiahui Chen*
 
 **Yelp clone** displays a list of search results from the Yelp API and displays the results in a scrollable list. 
 
-Time spent: **X** hours spent in total
+Time spent: **20** hours spent in total
 
 ## Functionality 
 
 The following **required** functionality is completed:
 
-* [ ] Ability to query the Yelp API to get results from a search query
-* [ ] The search results are displayed in a RecyclerView
+* [x] Ability to query the Yelp API to get results from a search query
+* [x] The search results are displayed in a RecyclerView
 
 The following **extensions** are implemented:
 
