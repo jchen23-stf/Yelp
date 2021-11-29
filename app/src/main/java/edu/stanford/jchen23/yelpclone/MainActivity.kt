@@ -24,9 +24,7 @@ private const val BASE_URL = "https://api.yelp.com/v3/"
 private const val API_KEY = "bircrYXzBWmK6_ZnZKvq4QIYd79sPs305DXLzDdIeKzX0ODXH_6TEUkUPBT-skk-FSlHpH1xa9c_8wZoTmXlrtlSCyx6uXGhV7jYPcRSo3o1pIbBFy5fo6WZP3WkYXYx"
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
     private lateinit var adapter : RestaurantsAdapter
-
     private lateinit var restaurants : MutableList<YelpRestaurant>
     private lateinit var retrofit : Retrofit
     private lateinit var yelpService : YelpService
@@ -51,11 +49,6 @@ class MainActivity : AppCompatActivity() {
         adapter = RestaurantsAdapter(this, restaurants, object : RestaurantsAdapter.OnClickListener {
             override fun onItemClick(position: Int) {
                 Log.i(TAG, "onItemClick $position")
-                // When the user taps on a view in RV, navigate to new activity
-                val intent = Intent(this@MainActivity, RestaurantDetailActivity::class.java)
-                intent.putExtra(RESTAURANT_ID, restaurants[position].id)
-                startActivity(intent)
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         })
         binding.rvResturants.adapter = adapter
@@ -93,33 +86,4 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        Log.i(TAG, "onCreateOptionsMenu")
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu, menu)
-        val searchItem: MenuItem = menu.findItem(R.id.action_search)
-        val searchView: SearchView = MenuItemCompat.getActionView(searchItem) as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.i(TAG, "onQueryTextSubmit: $query")
-                if (query != null) {
-                    if (query.contains(" in ")) {
-                        val parts = query.split(" in ")
-                        searchQuery = parts[0]
-                        searchLocation = parts[1]
-                    }
-                    updateSearch()
-                } else {
-                    Log.i(TAG, "invalid search")
-                }
-                searchView.clearFocus()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
-        return super.onCreateOptionsMenu(menu)
-    }
 }
