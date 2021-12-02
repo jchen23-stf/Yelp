@@ -1,5 +1,6 @@
 package edu.stanford.jchen23.yelpclone
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import android.net.NetworkInfo
+
+import android.net.ConnectivityManager
+import java.io.IOException
 
 
 const val RESTAURANT_ID = "RESTAURANT_ID"
@@ -39,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         yelpService = retrofit.create(YelpService::class.java)
 
         updateSearch()
-
+        assert(isNetworkAvailable() == true and isOnline() == true)
         binding.rvResturants.layoutManager = LinearLayoutManager(this)
         adapter = RestaurantsAdapter(this, restaurants, object : RestaurantsAdapter.OnClickListener {
             override fun onItemClick(position: Int) {
@@ -55,6 +60,27 @@ class MainActivity : AppCompatActivity() {
         )
 
     }
+    private fun isNetworkAvailable(): Boolean? {
+        val connectivityManager =
+            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
+    }
+
+    private fun isOnline(): Boolean {
+        val runtime = Runtime.getRuntime()
+        try {
+            val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
+            val exitValue = ipProcess.waitFor()
+            return exitValue == 0
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+        return false
+    }
+
 
     private fun updateSearch() {
         yelpService.searchRestaurants("Bearer $API_KEY", searchQuery, searchLocation)
