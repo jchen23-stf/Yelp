@@ -14,12 +14,12 @@
         android:text="TextView"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/ivRestaurant"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Charley St" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivRestaurant"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvNumReviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -50,7 +50,7 @@
         tools:text="321 Reviews" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tvAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -65,12 +65,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@android:color/darker_gray"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/tvAddress"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddress"
         tools:text="Breakfast" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/tvDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/darker_gray"
@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="@+id/tvDistance"
+        app:layout_constraintTop_toBottomOf="@+id/tvDistance"
         tools:text="$$" />
 </androidx.constraintlayout.widget.ConstraintLayout>

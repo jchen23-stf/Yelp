@@ -5,6 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -39,18 +42,28 @@ class RestaurantsAdapter(val context: Context,
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvName = itemView.findViewById<TextView>(R.id.tvName);
+        private val ratingBar = itemView.findViewById<RatingBar>(R.id.ratingBar);
+        private val tvNumReviews = itemView.findViewById<TextView>(R.id.tvNumReviews);
+        private val tvAddress = itemView.findViewById<TextView>(R.id.tvAddress);
+        private val tvCategory = itemView.findViewById<TextView>(R.id.tvCategory);
+        private val tvDistance = itemView.findViewById<TextView>(R.id.tvDistance);
+        private val tvPrice = itemView.findViewById<TextView>(R.id.tvPrice);
+        private val ivRestaurant = itemView.findViewById<ImageView>(R.id.ivRestaurant);
+
+
         fun bind(restaurant: YelpRestaurant) {
-            itemView.tvName.text = restaurant.name
-            itemView.ratingBar.rating = restaurant.rating.toFloat()
-            itemView.tvNumReviews.text = "${restaurant.numReviews} Reviews"
-            itemView.tvAddress.text = restaurant.location.address
-            itemView.tvCategory.text = restaurant.categories[0].title
-            itemView.tvDistance.text = restaurant.displayDistance()
-            itemView.tvPrice.text = restaurant.price
+            tvName.text = restaurant.name
+            ratingBar.rating = restaurant.rating.toFloat()
+            tvNumReviews.text = "${restaurant.numReviews} Reviews"
+            tvAddress.text = restaurant.location.address
+            tvCategory.text = restaurant.categories[0].title
+            tvDistance.text = restaurant.displayDistance()
+            tvPrice.text = restaurant.price
             Glide.with(context)
                 .load(restaurant.imageUrl)
                 .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(20)))
-                .into(itemView.imageViewItemRestaurant)
+                .into(ivRestaurant)
         }
     }
 }
