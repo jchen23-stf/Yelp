@@ -1,6 +1,8 @@
 package edu.stanford.jchen23.yelpclone
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +17,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import android.net.NetworkInfo
 
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import java.io.IOException
+import android.widget.Toast
+
+
+
 
 
 const val RESTAURANT_ID = "RESTAURANT_ID"
@@ -37,6 +45,22 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        if (!isNetworkAvailable == true) {
+            AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Internet Connection Alert")
+                .setMessage("Please Check Your Internet Connection")
+                .setPositiveButton(
+                    "Close"
+                ) { dialogInterface, i -> finish() }.show()
+        } else if (isNetworkAvailable == true) {
+            Toast.makeText(
+                this@MainActivity,
+                "Welcome", Toast.LENGTH_LONG
+            ).show()
+        }
+
         restaurants = mutableListOf<YelpRestaurant>()
         retrofit =
             Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
@@ -44,7 +68,6 @@ class MainActivity : AppCompatActivity() {
         yelpService = retrofit.create(YelpService::class.java)
 
         updateSearch()
-        assert(isNetworkAvailable() == true and isOnline() == true)
         binding.rvResturants.layoutManager = LinearLayoutManager(this)
         adapter = RestaurantsAdapter(this, restaurants, object : RestaurantsAdapter.OnClickListener {
             override fun onItemClick(position: Int) {
@@ -60,26 +83,28 @@ class MainActivity : AppCompatActivity() {
         )
 
     }
-    private fun isNetworkAvailable(): Boolean? {
-        val connectivityManager =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetworkInfo = connectivityManager.activeNetworkInfo
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
-    }
 
-    private fun isOnline(): Boolean {
-        val runtime = Runtime.getRuntime()
-        try {
-            val ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8")
-            val exitValue = ipProcess.waitFor()
-            return exitValue == 0
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
+    val isNetworkAvailable: Boolean
+        get() {
+            val connectivityManager =
+                getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (connectivityManager != null) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val capabilities =
+                        connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                    if (capabilities != null) {
+                        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                            return true
+                        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                            return true
+                        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                            return true
+                        }
+                    }
+                }
+            }
+            return false
         }
-        return false
-    }
 
 
     private fun updateSearch() {
