@@ -15,14 +15,14 @@ The following **required** functionality is completed:
 
 The following **extensions** are implemented:
 
-* [ ] User sees a descriptive error message if internet is not available
+* [x] User sees a descriptive error message if internet is not available
 * [ ] List anything else that you did to improve the app functionality or design!
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://bkimg.cdn.bcebos.com/pic/c83d70cf3bc79f3df8dcc5e32ef0da11728b4610839d' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
